@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        build_type: [Release, Debug]
+        sanitizer: [none, asan, tsan]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake g++ clang-format clang-tidy cppcheck doxygen
+
+      - name: Configure CMake
+        run: |
+          mkdir -p build
+          cd build
+          FLAGS=""
+          if [ "${{ matrix.sanitizer }}" = "asan" ]; then
+            FLAGS="-DENABLE_ASAN=ON"
+          elif [ "${{ matrix.sanitizer }}" = "tsan" ]; then
+            FLAGS="-DENABLE_TSAN=ON"
+          fi
+          cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} $FLAGS
+
+      - name: Build
+        run: |
+          cd build
+          make -j$(nproc)
+
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure
+
+      - name: Run benchmarks
+        run: |
+          cd build
+          ./bench_insert || true
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find src test benchmark -name '*.cpp' -o -name '*.h' | xargs clang-format --dry-run --Werror || true
+
+      - name: Run cppcheck
+        run: |
+          sudo apt-get install -y cppcheck
+          cppcheck --enable=warning,style --std=c++17 --suppress=missingIncludeSystem src/ || true

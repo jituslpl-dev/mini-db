@@ -1,0 +1,47 @@
+mini-db RDBMS v1.0
+Database: demo.db
+Type 'help' for commands, 'exit' to quit.
+
+[Recovery] Log is empty, nothing to recover.
+db> CREATE TABLE users (id=1)
+db> INSERT 1 row(s)
+db> INSERT 1 row(s)
+db> INSERT 1 row(s)
+db> id | name | age
+---+------+----
+1 | Alice | 30
+2 | Bob | 25
+3 | Charlie | 35
+(3 row(s))
+db> id | name | age
+---+------+----
+1 | Alice | 30
+3 | Charlie | 35
+(2 row(s))
+db> id | name | age
+---+------+----
+3 | Charlie | 35
+1 | Alice | 30
+(2 row(s))
+db> QUERY PLAN
+----------
+SELECT * FROM users WHERE (age > 28)
+
+SeqScan(users)
+  -> Filter(WHERE)
+
+db> UPDATE 1 row(s)
+db> id | name | age
+---+------+----
+1 | Alice | 30
+2 | Bob | 26
+3 | Charlie | 35
+(3 row(s))
+db> DELETE 1 row(s)
+db> id | name | age
+---+------+----
+1 | Alice | 30
+2 | Bob | 26
+(2 row(s))
+db> Shutting down...
+EXIT CODE: 0 

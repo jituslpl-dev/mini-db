@@ -1,0 +1,32 @@
+# Build artifacts
+build/
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+
+# IDE files
+.vscode/
+*.user
+*.suo
+*.sln
+*.vcxproj*
+
+# Database files (generated at runtime)
+*.db
+*.db.log
+*.log
+
+# Test artifacts
+test_*.db
+bench.db
+
+# Documentation output
+docs/
+
+# OS files
+.DS_Store
+Thumbs.db

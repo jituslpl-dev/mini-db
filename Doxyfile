@@ -1,0 +1,15 @@
+PROJECT_NAME           = mini-db
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "A from-scratch relational database management system in C++17"
+INPUT                  = src README.md
+RECURSIVE              = YES
+OUTPUT_DIRECTORY       = docs
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+GENERATE_LATEX         = NO
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+USE_MDFILE_AS_MAINPAGE = README.md
+QUIET                  = YES
+WARN_IF_UNDOCUMENTED   = NO

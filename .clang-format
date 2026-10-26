@@ -1,0 +1,10 @@
+BasedOnStyle: Google
+IndentWidth: 2
+ColumnLimit: 80
+AccessModifierOffset: -2
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: WithoutElse
+BreakBeforeBraces: Attach
+NamespaceIndentation: None
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
